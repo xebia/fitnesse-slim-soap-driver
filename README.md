@@ -6,7 +6,7 @@ Using the `add namespace prefix` and `set x path` you build up a SOAP message bo
 
 First you add a namespace,
 
-    |add namespace prefix|p|http://www.example.com/|
+    |add prefix|p|namespace|http://www.example.com/|
 
 then you can set values in the newly defined `p` prefix
 
