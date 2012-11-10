@@ -46,3 +46,45 @@ and inspect them using
     |show headers|
 
 
+Example
+=======
+This example can be run using a basic Fitnesse/maven setup, for example using Xebium and after doing a local install of the driver adding the driver dependency:
+
+    <dependency>
+      <groupId>com.xebia.fitnesse.slim.soap</groupId>
+      <artifactId>fitnesse-slim-soap-driver</artifactId>
+      <version>0.1-SNAPSHOT</version>
+    </dependency>
+
+Then the followin Fitnesse page should do all the setup and run the first test:
+
+    !define TEST_SYSTEM {slim}
+
+    !*****> '''Classpath'''
+    !pomFile pom.xml@runtime
+    *****!
+
+    |import|
+    |com.xebia.fitnesse.slim.soap|
+
+    | library |
+    | soap fixture |
+
+    !|script|
+    |add prefix|wsx|namespace|http://www.webserviceX.NET/|
+    |set x path|wsx:GetSunSetRiseTime/wsx:L/wsx:Latitude|value|1.0|
+    |set x path|wsx:GetSunSetRiseTime/wsx:L/wsx:Longtitude|value|1.0|
+    |set x path|wsx:GetSunSetRiseTime/wsx:L/wsx:SunSetTime|value|0|
+    |set x path|wsx:GetSunSetRiseTime/wsx:L/wsx:SunRiseTime|value|0|
+    |set x path|wsx:GetSunSetRiseTime/wsx:L/wsx:TimeZone|value|1|
+    |set x path|wsx:GetSunSetRiseTime/wsx:L/wsx:Day|value|1|
+    |set x path|wsx:GetSunSetRiseTime/wsx:L/wsx:Month|value|1|
+    |set x path|wsx:GetSunSetRiseTime/wsx:L/wsx:Year|value|2012|
+    |show|request|
+    |send to|http://www.webservicex.net/sunsetriseservice.asmx|
+    |show|response|
+    |check|get x path|wsx:GetSunSetRiseTimeResponse/wsx:GetSunSetRiseTimeResult/wsx:Year|2012|
+    |check|get x path|count(//wsx:GetSunSetRiseTimeResult)|1|
+
+
+
